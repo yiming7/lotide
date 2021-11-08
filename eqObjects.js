@@ -33,21 +33,18 @@ const eqObjects = function(object1, object2) {
   }
   for(let key of key1){
     if(object2[key]){
-      switch (typeof(object2)){
-        case 'array':
-          if(!eqArrays(object1[key],object2[key])){
-            return false;
-          }
-          break;
-        case 'object':
-          if(!eqObjects(object1[key],object2[key])){
-            return false;
-          }
-          break;
-        default:
-          if(object1[key]!==object2[key]){
-            return false;
-          }
+      if(Array.isArray(object2[key])){
+        if(!eqArrays(object1[key],object2[key])){
+          return false;
+        }
+      }else if(typeof(object2) === "object"){
+        if(!eqObjects(object1[key],object2[key])){
+          return false;
+        }
+      }else{
+        if(object1[key]!==object2[key]){
+          return false;
+        }
       }
     }else{
       return false;
